@@ -243,13 +243,14 @@ let timerRunningOut = new Howl({
 //   src: ['/sounds/you_lose.mp3']
 // });
 //$("body").css("background", "radial-gradient(#833838, #421e1e)");
-let _renge = [25];
-_renge.push(_renge[0] * 2);
+let _renge = [1];
+_renge.push(_renge[0] * 5);
 
-_renge.push(_renge[1] * 2);
-_renge.push(_renge[1] * 5);
-_renge.push(_renge[1] * 10);
-_renge.push(_renge[1] * 20);
+
+_renge.push(_renge[0] * 25);
+_renge.push(_renge[0] * 50);
+
+_renge.push(_renge[0] * 100);
 
 const BlackjackGame = () => {
     const [lasts, setLasts] = useState([]);
@@ -491,27 +492,27 @@ const BlackjackGame = () => {
                         )}
                         <div id="bets-container" className={(gameTimer < 2 && gameTimer > -1) || gameData.gameOn == true ? "nochip" : ""}>
                             {_renge.map(function (bet, i) {
-                                if (bet * 1000 <= userData.balance) {
+                                if (bet <= userData.balance) {
                                     return (
                                         <span key={i} className={chip == bet ? "curchip" : ""}>
                                             <button
                                                 className="betButtons  animate__faster animate__animated animate__zoomInUp"
                                                 style={{ animationDelay: i * 100 + "ms" }}
                                                 id={"chip" + i}
-                                                value={bet * 1000}
+                                                value={bet}
                                                 onClick={() => {
                                                     setChip(bet);
                                                 }}
                                             >
-                                                {doCurrencyMil(bet * 1000)}
+                                                {doCurrencyMil(bet)}
                                             </button>
                                         </span>
                                     );
                                 } else {
                                     return (
                                         <span key={i} className={chip == bet ? "curchip" : ""}>
-                                            <button className="betButtons noclick noclick-nohide animate__animated animate__zoomInUp" style={{ animationDelay: i * 100 + "ms" }} id={"chip" + i} value={bet * 1000}>
-                                                {doCurrencyMil(bet * 1000)}
+                                            <button className="betButtons noclick noclick-nohide animate__animated animate__zoomInUp" style={{ animationDelay: i * 100 + "ms" }} id={"chip" + i} value={bet}>
+                                                {doCurrencyMil(bet)}
                                             </button>
                                         </span>
                                     );
@@ -631,9 +632,9 @@ const BlackjackGame = () => {
                                             chipPlace.play();
                                             $("#slot" + pNumber + " > .betButtons").addClass("noclick-nohide");
 
-                                            socket.send(JSON.stringify({ method: "bet", amount: chip * 1000, theClient: userData, gameId: gameData.id, seat: pNumber }));
+                                            socket.send(JSON.stringify({ method: "bet", amount: chip, theClient: userData, gameId: gameData.id, seat: pNumber }));
                                         }}
-                                        className={gameData.gameOn || chip * 1000 > userData.balance || pBet ? "active noclick empty-slot" : "empty-slot"}
+                                        className={gameData.gameOn || chip > userData.balance || pBet ? "active noclick empty-slot" : "empty-slot"}
                                         style={{ background: getcolor(player.x), color: getcolortext(player.x) }}
                                     >
                                         <span className={pBet ? "gotop betetx" : "betetx"}>{player.x}</span>
@@ -681,10 +682,10 @@ const BlackjackGame = () => {
                                                     if (!gameData.gameOn && !sidePPPlayer) {
                                                         $("#slot" + pNumber + "  #bets-container-left .betButtons").addClass("noclick-nohide");
                                                         chipPlace.play();
-                                                        socket.send(JSON.stringify({ method: "sidebet", amount: chip * 1000, theClient: userData, gameId: gameData.id, seat: pNumber, mode: "Pair" }));
+                                                        socket.send(JSON.stringify({ method: "sidebet", amount: chip, theClient: userData, gameId: gameData.id, seat: pNumber, mode: "Pair" }));
                                                     }
                                                 }}
-                                                className={sidePPPlayer || chip * 1000 > userData.balance || gameData.gameOn ? "betButtons place noclick-nohide" : "betButtons place"}
+                                                className={sidePPPlayer || chip > userData.balance || gameData.gameOn ? "betButtons place noclick-nohide" : "betButtons place"}
                                             >
                                                 <span className={sidePPPlayer ? "gotop betetx" : "betetx"}>{pNumber==1?<>Perfect<br/>Pair</>:"PAIR"}</span>
                                             </button>
@@ -729,10 +730,10 @@ const BlackjackGame = () => {
                                                     if (!gameData.gameOn && !side213layer) {
                                                         $("#slot" + pNumber + "  #bets-container-right .betButtons").addClass("noclick-nohide");
                                                         chipPlace.play();
-                                                        socket.send(JSON.stringify({ method: "sidebet", amount: chip * 1000, theClient: userData, gameId: gameData.id, seat: pNumber, mode: "3card" }));
+                                                        socket.send(JSON.stringify({ method: "sidebet", amount: chip, theClient: userData, gameId: gameData.id, seat: pNumber, mode: "3card" }));
                                                     }
                                                 }}
-                                                className={side213layer || chip * 1000 > userData.balance || gameData.gameOn? "betButtons place noclick-nohide" : "betButtons place"}
+                                                className={side213layer || chip > userData.balance || gameData.gameOn? "betButtons place noclick-nohide" : "betButtons place"}
                                             >
                                                 <span className={side213layer ? "gotop betetx" : "betetx"}>{pNumber==1?<>Either<br/>Pair</>:"3 CARD"}</span>
                                             </button>
