@@ -649,7 +649,7 @@ const BlackjackGame = () => {
                                                         inverted
                                                         on="hover"
                                                         trigger={
-                                                            <button className="betButtons animate__animated animate__zoomInDown" style={{ animationDelay: (pNumber + 1) * 50 + "ms", left: pNumber * -5, top: pNumber * 10 }} id={"chip" + _renge.findIndex((bet) => bet == player.amount / 1000)}>
+                                                            <button className="betButtons animate__animated animate__zoomInDown" style={{ animationDelay: (pNumber + 1) * 50 + "ms", left: pNumber * -5, top: pNumber * 10 }} id={"chip" + _renge.findIndex((bet) => bet == player.amount)}>
                                                                 {doCurrencyMil(player.amount)}
                                                             </button>
                                                         }
@@ -668,7 +668,7 @@ const BlackjackGame = () => {
                                     )}
                                     {pBet && (
                                         <div className={"player-coin"}>
-                                            <button className="betButtons noclick animate__animated animate__rotateIn" id={"chip" + _renge.findIndex((bet) => bet == pBet.bet / 1000)}>
+                                            <button className="betButtons noclick animate__animated animate__rotateIn" id={"chip" + _renge.findIndex((bet) => bet == pBet.bet)}>
                                                 {doCurrencyMil(pBet.bet)}
                                             </button>
                                         </div>
@@ -690,7 +690,7 @@ const BlackjackGame = () => {
                                                 <span className={sidePPPlayer ? "gotop betetx" : "betetx"}>{pNumber==1?<>Perfect<br/>Pair</>:"PAIR"}</span>
                                             </button>
                                             {sidePPPlayer && (
-                                                <button className="betButtons placebet noclick animate__animated animate__rotateIn" id={"chip" + _renge.findIndex((bet) => bet === sidePPPlayer / 1000)}>
+                                                <button className="betButtons placebet noclick animate__animated animate__rotateIn" id={"chip" + _renge.findIndex((bet) => bet === sidePPPlayer)}>
                                                     {doCurrencyMil(sidePPPlayer)}
                                                 </button>
                                             )}
@@ -703,7 +703,7 @@ const BlackjackGame = () => {
                                                                 size="mini"
                                                                 inverted
                                                                 trigger={
-                                                                    <button className="betButtons  animate__animated animate__zoomInDown" style={{ animationDelay: (pNumber + 1) * 50 + "ms", left: pNumber * 5, top: pNumber * -15 }} id={"chip" + _renge.findIndex((bet) => bet == player.amount / 1000)}>
+                                                                    <button className="betButtons  animate__animated animate__zoomInDown" style={{ animationDelay: (pNumber + 1) * 50 + "ms", left: pNumber * 5, top: pNumber * -15 }} id={"chip" + _renge.findIndex((bet) => bet == player.amount)}>
                                                                         {doCurrencyMil(player.amount)}
                                                                     </button>
                                                                 }
@@ -738,7 +738,7 @@ const BlackjackGame = () => {
                                                 <span className={side213layer ? "gotop betetx" : "betetx"}>{pNumber==1?<>Either<br/>Pair</>:"3 CARD"}</span>
                                             </button>
                                             {side213layer && (
-                                                <button className="betButtons placebet noclick animate__animated animate__rotateIn" id={"chip" + _renge.findIndex((bet) => bet === side213layer / 1000)}>
+                                                <button className="betButtons placebet noclick animate__animated animate__rotateIn" id={"chip" + _renge.findIndex((bet) => bet === side213layer)}>
                                                     {doCurrencyMil(side213layer)}
                                                 </button>
                                             )}
@@ -753,7 +753,7 @@ const BlackjackGame = () => {
                                                                 inverted
                                                                 on="hover"
                                                                 trigger={
-                                                                    <button className="betButtons  animate__animated animate__zoomInDown" style={{ animationDelay: (pNumber + 1) * 50 + "ms", left: pNumber * -5, top: pNumber * -15 }} id={"chip" + _renge.findIndex((bet) => bet == player.amount / 1000)}>
+                                                                    <button className="betButtons  animate__animated animate__zoomInDown" style={{ animationDelay: (pNumber + 1) * 50 + "ms", left: pNumber * -5, top: pNumber * -15 }} id={"chip" + _renge.findIndex((bet) => bet == player.amount)}>
                                                                         {doCurrencyMil(player.amount)}
                                                                     </button>
                                                                 }
