@@ -18,7 +18,7 @@ if (pathArr.length == 3) {
 //console.log(_auth);
 
 //const WEB_URL = process.env.REACT_APP_MODE === "production" ? `wss://${process.env.REACT_APP_DOMAIN_NAME}/` : `ws://${loc.hostname}:8080`;
-const WEB_URL = `wss://mbaccarat.wheelofpersia.com/`;
+const WEB_URL = `wss://mbaccarat.royale777.vip/`;
 // (A) LOCK SCREEN ORIENTATION
 const betAreas = [
     { x: "PLAYER", sidep: 2, side3: 10 },
@@ -63,7 +63,9 @@ const doCurrency = (value) => {
     return val;
 };
 const doCurrencyMil = (value, fix) => {
-    let val;
+    let val = value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    return val;
+    //let val;
     if (value < 1000000) {
         val = doCurrency(parseFloat(value / 1000).toFixed(fix || fix == 0 ? fix : 0)) + "K";
     } else {
