@@ -71,7 +71,7 @@ const doCurrency = (value,sign) => {
 const doCurrencyMil = (value, fix) => {
     let val;
     if (value < 1000) {
-        val = doCurrency(parseFloat(value ).toFixed(fix || fix == 0 ? fix : 0)) + "";
+        val = doCurrency(parseFloat(value ).toFixed(fix || fix == 0 ? fix : 0),true) + "";
     } else {
         val = doCurrency(parseFloat(value / 1000).toFixed(fix || fix == 0 ? fix : 1)) + "K";
         val = val.replace(".0", "");
@@ -492,15 +492,15 @@ const BlackjackGame = () => {
                     <div id="balance-bet-box">
                         <div className="balance-bet">
                             Balance
-                            <div id="balance" className="counter" data-count={userData.balance}>{doCurrency(userData.balance)}</div>
+                            <div id="balance" className="counter" data-count={userData.balance}></div>
                         </div>
                         <div className="balance-bet">
                             Yout Bets
-                            <div id="total-bet" className="counter" data-count={_totalBet}>0</div>
+                            <div id="total-bet" className="counter" data-count={_totalBet}></div>
                         </div>
                         <div className="balance-bet">
                             Your Wins
-                            <div id="total-bet" className="counter" data-count={_totalWin}>0</div>
+                            <div id="total-bet" className="counter" data-count={_totalWin}></div>
                         </div>
                         {localStorage.getItem(gameId) && (
                             <div
