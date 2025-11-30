@@ -15,14 +15,17 @@ html {
 }
 
 body {
-  background: #2d1135 ;
   
+background:  #262a2b ;
+ 
+font-size: 22px !important;
   padding: 0;
   margin: 0;
   opacity: 1;
+  transition: background .5s ease;
 }
 table{
-  width: 80%;
+  width: 90%;
   margin: auto;
   color: black;
   text-align: center;
@@ -38,8 +41,8 @@ table thead {
     }
  table.two td {
   width: 45%;
-   padding: 0 20px;
-   font-size: 20px;
+   padding: 5px 20px;
+ 
    text-align: center;
  }
  .r0{
@@ -99,8 +102,13 @@ position: relative;
   --info-rules-width: -492px;
 }
 
-.hide-element {
-  
+#root *{
+ -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10+ and Edge */
+  user-select: none;
+  /* Standard syntax */
 }
 
 .player-left {
@@ -496,11 +504,17 @@ position: relative;
   color: rgba(87, 165, 255, 0.8);
 }
 
+
 .game-room {
-  height: 100%;
-  transition: all .1s ease;
-  min-height: 750px !important;
-  transform-origin: top;
+  
+  opacity: 0;
+  transition: transform .5s ease, opacity .1s ease;
+  height: 800px !important;
+  
+}
+.game-room[style] {
+  opacity: 1;
+  
 }
 
 #users-online-box {
@@ -657,9 +671,13 @@ position: relative;
   border: 1px solid white !important;
 }
 
+#root * {
+    user-select: none;
+}
+
 #leave-button {
   position: absolute;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-left: 90px;
   height: 30px;
   
@@ -672,17 +690,11 @@ position: relative;
   /* Standard syntax */
 }
 #leave-button .button {
-  width: 120px !important;
+  width: 180px !important;
 }
-.modal.tiny *{
-  font-size: 96% !important;
-}
-.myloading,.myloading *:not(i):not(br){
-  position: absolute !important;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+
+.myloading{
+
   background:transparent !important
 }
 #leave-table {
@@ -771,9 +783,9 @@ position: relative;
 #deal-start-label {
   position: absolute;
   left: 50%;
-  margin-top: 160px;
+  margin-top: 320px;
   display: inline-block;
-  font-size: 36px;
+  font-size: 46px;
   color: white;
   transform: translateX(-50%);
   text-align: center;
@@ -793,18 +805,19 @@ position: relative;
 
 #players-container {
   position: absolute;
-  width: 50%;
-  height: 48%;
-  bottom: 0;
-  left: 50%;
-  margin-left: -25%;
-  display: flex;
-  /* flex-flow: wrap; */
-  /* flex-direction: row; */
-  color: black;
-  text-align: center;
-  justify-content: space-between;
-  align-items: center;
+    width: 50%;
+    height: 300px;
+    top: 63%;
+    left: 50%;
+    margin-left: -25%;
+    display: flex;
+    /* flex-flow: wrap; */
+    /* flex-direction: row; */
+    color: black;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.5;
 }
 
 .players {
@@ -831,12 +844,13 @@ position: relative;
 }
 .bets-side-win{
   color: chartreuse;
-    font-size: 20px;
+    font-size: 34px;
     position: absolute;
-    margin-top: -25px;
+    margin-top: -43px;
     width: 100%;
     text-align: center;
-    transition: all 1s ease;
+    transition: all 1s 
+ease;
 }
 .bets-side-win.goup{
   
@@ -871,20 +885,24 @@ ul li{
   z-index: 10;
 }
 #root {
-  height: 100vh;
+  background: radial-gradient(#00000000, #000000bd) !important;
+  height: 100dvh;
    
     width: 100vw;
     overflow: hidden;
 }
+#root *{
+  user-select: none;
+}
 
-#root > div{
-  height: 750px;
+#root > div {
+  height: 800px;
   position: relative;
   width: 1400px;
-  top: 10px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  transform-origin: top center;
+  transform: translateX(-50%) translateY(-50%);
+  transform-origin: center;
 }
 
 .players-timer {
@@ -973,7 +991,7 @@ ul li{
   left: 50%;
   /* allow the width to be calculated dynamically */
   width: auto;
-  font-size: 30px;
+  font-size: 50px;
 }
 
 .player-result {
@@ -1082,8 +1100,8 @@ ul li{
   top:-80px
 }
 .place .betetx.gotop{
-  
-  top:-55px
+ font-size: 20px;
+    top: -69px;
 }
 
 .player-coin .player-avatar  {
@@ -1265,8 +1283,8 @@ color: white;
 text-align: center;
 border-radius: 10px;
 font-family: "Play", sans-serif;
--webkit-user-select: none;
-top:10px;
+
+top:20px;
 right: 90px;
 }
 
@@ -1274,7 +1292,7 @@ right: 90px;
   background-color: rgba(0, 0, 0, 0.458);
   padding: 4px;
   border: 1px solid white;
-  width: 155px;
+  width: 215px;
   border-radius: 10px;
   margin-left: 10px;
   margin-bottom: 8px;
@@ -1301,12 +1319,12 @@ right: 90px;
 }
 
 #lasts .lasts-cards {
-  margin: auto;
+    margin: auto;
     flex-direction: row;
     position: absolute;
-    width: 18%;
+    width: 220px;
     transition: 500ms;
-    margin-top: 520px;
+    margin-top: 900px;
     margin-left: 90px;
 }
 
@@ -1355,7 +1373,7 @@ right: 90px;
   transform: translateX(-50%) !important;
   left: 50%;
   width: auto;
-  font-size: 30px;
+  font-size: 50px;
 }
 #dealer .dealer-cards {
   display: flex;
@@ -1436,30 +1454,34 @@ right: 90px;
 }
 
 #lasts .visibleCards {
-  margin: 5px 3px;
-  position: relative;
-  display: inline-block;
- padding: 3px 10px;
- min-width: 45px;
-  text-align: center;
-  border-radius: 10px;
-  font-size: 12px;
+margin: 0px 3px 3px 3px;
+    position: relative;
+    display: inline-block;
+    padding: 2px 10px;
+    min-width: 49px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 21px;
 }
 
 #bets-container {
-  position: absolute;
- 
-  top: 230px;
-  left: 65%;
-  transform: translateX(-50%);
-  display: grid;
-  transition: all .5s ease;
+     position: absolute;
+    height: 420px;
+    margin: 0 auto;
+    top: 310px;
+    left: 73%;
+    transform: translateX(-50%);
+    display: grid;
+    color: black;
+    text-align: center;
+    justify-content: space-evenly;
+    align-items: center;
 }
 .curchip{
   transform: scale(.9) translateX(-20px) !important;
 }
 #bets-container.nochip{
-  filter: grayscale(100%) blur(5px);
+  filter: grayscale(50%);
 }
 #bets-container-right {
   position: absolute;
@@ -1651,7 +1673,7 @@ position:absolute;
 
 #bets-container > span{
   transform-origin: right center;
-  transform: scale(.8);
+  transform: scale(.9);
   transition: all 0.2s ease-in-out;
 }
 

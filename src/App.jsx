@@ -12,13 +12,16 @@ const loc = new URL(window.location);
 const pathArr = loc.pathname.toString().split("/");
 
 if (pathArr.length == 3) {
-    _auth = pathArr[1];
+    _auth = pathArr[1] + "___" + pathArr[2];
 }
+
 //_auth = "farshad-HangOver2";
 //console.log(_auth);
 
 //const WEB_URL = process.env.REACT_APP_MODE === "production" ? `wss://${process.env.REACT_APP_DOMAIN_NAME}/` : `ws://${loc.hostname}:8080`;
-const WEB_URL = `wss://mbaccarat.usdtpoker.club/`;
+//const WEB_URL = `wss://mbaccarat.wheelofpersia.com/`;
+//const WEB_URL = `ws://${loc.hostname}:8100/baccarat`;
+const WEB_URL = `wss://server.usdtpoker.club/baccarat`;
 // (A) LOCK SCREEN ORIENTATION
 const betAreas = [
     { x: "PLAYER", sidep: 2, side3: 10 },
@@ -58,72 +61,107 @@ const getcolortext = (item) => {
     }
     return def;
 };
-const doCurrency = (value) => {
+const doCurrency = (value,sign) => {
     let val = value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    if(sign){
+        return "$"+val;
+    }
     return val;
 };
 const doCurrencyMil = (value, fix) => {
-    let val = value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-    return val;
-    //let val;
-    if (value < 1000000) {
-        val = doCurrency(parseFloat(value / 1000).toFixed(fix || fix == 0 ? fix : 0)) + "K";
+    let val;
+    if (value < 1000) {
+        val = doCurrency(parseFloat(value ).toFixed(fix || fix == 0 ? fix : 0)) + "";
     } else {
-        val = doCurrency(parseFloat(value / 1000000).toFixed(fix || fix == 0 ? fix : 1)) + "M";
+        val = doCurrency(parseFloat(value / 1000).toFixed(fix || fix == 0 ? fix : 1)) + "K";
         val = val.replace(".0", "");
     }
     return val;
 };
-function checkbox() {
-    if ($("#cadr2:visible").length) {
-        $("#cadr").show();
-        $("#cadr2").hide();
-    } else {
-        $("#cadr2").show();
-        $("#cadr").hide();
-    }
-}
-setInterval(() => {
-    checkbox();
-}, 500);
-function animateNum() {
-    $(".counter").each(function () {
-        var $this = $(this),
-            countTo = $this.attr("data-count"),
-            countFrom = $this.attr("start-num") ? $this.attr("start-num") : parseInt($this.text().replace(/,/g, ""));
 
-        if (countTo != countFrom && !$this.hasClass("doing")) {
-            $this.attr("start-num", countFrom);
+function useScale(rootId = "root", scaleId = "scale", gamesData, conn) {
+
+    useEffect(() => {
+
+        const doScale = () => {
+            try {
+                const root = document.getElementById(rootId);
+                const scaleEl = document.getElementById(scaleId);
+
+                if (!root || !scaleEl) return;
+                const gWidth = root.clientWidth / 1400;
+                const gHeight = root.clientHeight / 850;
+                let scale = Math.min(gWidth, gHeight);
+
+                if (scale > 1) scale = 1;
+                // center translation to keep proportions (approximate)
+
+
+
+                const target = 800 - gHeight;
+                let t = (800 - target) / 2;
+                scaleEl.style.transform = `scale(${scale}) translateY(${t}px)`;
+
+            } catch (e) {
+                // ignore
+            }
+        };
+        window.addEventListener("resize", doScale);
+        window.addEventListener("orientationchange", doScale);
+        // initial
+
+        setTimeout(doScale, 50);
+
+
+
+        return () => {
+            window.removeEventListener("resize", doScale);
+            window.removeEventListener("orientationchange", doScale);
+        };
+    }, [gamesData, conn]);
+
+}
+function animateNum() {
+    $('.counter').each(function () {
+        var $this = $(this),
+            sign = typeof $this.attr('data-sign') == 'undefined'?true:false,
+            countTo = $this.attr('data-count'),
+            countFrom = $this.attr('start-num') ? $this.attr('start-num') : parseInt($this.text().replace(/,/g, ""));
+
+
+        if (countTo != countFrom && !$this.hasClass('doing')) {
+            $this.attr('start-num', countFrom);
             // $this.addClass("doing");
 
-            $({ countNum: countFrom }).animate(
-                {
-                    countNum: countTo,
-                },
+            $({ countNum: countFrom }).animate({
+                countNum: countTo
+            },
 
                 {
+
                     duration: 400,
-                    easing: "linear",
+                    easing: 'linear',
 
                     step: function () {
                         //$this.attr('start-num',Math.floor(this.countNum));
-                        $this.text(doCurrency(Math.floor(this.countNum)));
+                        $this.text(doCurrency(Math.floor(this.countNum),sign));
                     },
                     complete: function () {
-                        $this.text(doCurrency(this.countNum));
-                        $this.attr("start-num", Math.floor(this.countNum));
-                        //$this.removeClass("doingdoing");
+                        $this.text(doCurrency(this.countNum,sign));
+                        $this.attr('start-num', Math.floor(this.countNum));
+                        //$this.removeClass("doing");
                         //alert('finished');
-                    },
-                }
-            );
+                    }
+
+                });
+
+
         } else {
-            if ($this.hasClass("doing")) {
-                $this.attr("start-num", countFrom);
+            if ($this.hasClass('doing')) {
+                $this.attr('start-num', countFrom);
                 $this.removeClass("doing");
             } else {
-                $this.text(doCurrency(countFrom));
-                $this.attr("start-num", countFrom);
+                $this.attr('start-num', countFrom);
             }
         }
     });
@@ -192,48 +230,26 @@ window.addEventListener("message", function (event) {
         } catch (error) {}
     }
 });
-let supportsOrientationChange = "onorientationchange" in window,
-    orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
 
-window.addEventListener(
-    orientationEvent,
-    function () {
-        AppOrtion();
-    },
-    false
-);
 window.parent.postMessage("userget", "*");
 
-if (window.self == window.top) {
-    //window.location.href = "https://www.google.com/";
+if (window.self === window.top && WEB_URL.indexOf("localhost")==-1) {
+    window.location.href = "https://www.google.com/";
 }
 let dealingSound = new Howl({
     src: ["/sounds/dealing_card_fix3.mp3"],
     volume: 0.5,
 });
-let chipHover = new Howl({
-    src: ["/sounds/chip_hover_fix.mp3"],
-    volume: 0.1,
-});
+
 let chipPlace = new Howl({
     src: ["/sounds/chip_place.mp3"],
     volume: 0.1,
 });
-let actionClick = new Howl({
-    src: ["/sounds/actionClick.mp3"],
-    volume: 0.1,
-});
-let defaultClick = new Howl({
-    src: ["/sounds/click_default.mp3"],
-    volume: 0.1,
-});
-let clickFiller = new Howl({
-    src: ["/sounds/click_filler.mp3"],
-    volume: 0.1,
-});
+
 let timerRunningOut = new Howl({
     src: ["/sounds/timer_running_out.mp3"],
     volume: 0.5,
+    rate: 0.4
 });
 
 // let youWin = new Howl({
@@ -244,12 +260,10 @@ let timerRunningOut = new Howl({
 // });
 //$("body").css("background", "radial-gradient(#833838, #421e1e)");
 let _renge = [1];
+
 _renge.push(_renge[0] * 5);
-
-
 _renge.push(_renge[0] * 25);
 _renge.push(_renge[0] * 50);
-
 _renge.push(_renge[0] * 100);
 
 const BlackjackGame = () => {
@@ -264,7 +278,7 @@ const BlackjackGame = () => {
     const [last, setLast] = useState(false);
     const [chip, setChip] = useState(50);
 
-    const [conn, setConn] = useState(true);
+    const [conn, setConn] = useState(false);
     const [gameId, setGameId] = useState("Baccarat01");
     const [gameTimer, setGameTimer] = useState(-1);
     const checkBets = (seat, username) => {
@@ -330,6 +344,7 @@ const BlackjackGame = () => {
 
         return parseFloat((userbet / lasts.length) * 100).toFixed(0);
     };
+    useScale("root", "scale", gamesData, conn);
     useEffect(() => {
         // Event onopen baraye vaghti ke websocket baz shode
 
@@ -359,21 +374,35 @@ const BlackjackGame = () => {
                 // Update kardan state
             }
             if (data.method == "connect") {
+                setConn(true);
                 if (data.theClient?.balance >= 0) {
                     setUserData(data.theClient);
                 } else {
                     setUserData(data.theClient);
-                    // setConn(false);
+                     
                     //_auth = null;
                 }
+                setInterval(() => {
+
+                    socket.send(JSON.stringify({ method: "ping" }));
+                }, 15000);
                 // Update kardan state
             }
             if (data.method == "timer") {
-                setGameTimer(data.sec);
-                if (data.sec == 5) {
-                    timerRunningOut.play();
-                }
-                // Update kardan state
+                if (data.sec <= 9) {
+                setLast(false);
+                localStorage.removeItem(String(gameId))
+
+            }
+            if (data.sec === 10) {
+                timerRunningOut.fade(0, 0.5, 2000);
+                timerRunningOut.play();
+            }
+            if (data.sec == 3) {
+
+                timerRunningOut.fade(0.5, 0, 4000);
+            }
+            setGameTimer(data.sec);
             }
             if (data.method === "deal") {
                 // if (data.gameId === $("#gameId").text()) {
@@ -400,17 +429,13 @@ const BlackjackGame = () => {
     useEffect(() => {
         // console.log("gameId",gameId)
         if (last) {
-            $("body").css("background", "radial-gradient(#252727, #262a2b)");
+            $("body").css("background", "#252727");
         } else {
-            $("body").css("background", "radial-gradient(#723883, #1e2b42)");
+            $("body").css("background", "#653d53ff").removeAttr("class");
         }
     }, [last]);
 
-    useEffect(() => {
-        setTimeout(() => {
-            AppOrtion();
-        }, 500);
-    }, []);
+ 
     useEffect(() => {
         if (last) {
             setGameData(JSON.parse(localStorage.getItem(gameId)));
@@ -421,13 +446,13 @@ const BlackjackGame = () => {
             setGameData(gameDataLive);
         }
 
-        AppOrtion();
+       
     }, [last, gameDataLive]);
     useEffect(() => {
         setTimeout(() => {
             animateNum();
         }, 100);
-        //AppOrtion();
+    
     }, [gameData]);
     // Agar gaData nist, ye matn "Loading" neshan bede
 
@@ -459,7 +484,7 @@ const BlackjackGame = () => {
     });
     return (
         <>
-            <span id="dark-overlay" className={gameData.win ? "curplayer" : ""}></span>
+ 
             <div>
                 <div className="game-room" id="scale">
                     <div id="table-graphics"></div>
@@ -467,15 +492,15 @@ const BlackjackGame = () => {
                     <div id="balance-bet-box">
                         <div className="balance-bet">
                             Balance
-                            <div id="balance" className="counter" data-count={userData.balance}></div>
+                            <div id="balance" className="counter" data-count={userData.balance}>{doCurrency(userData.balance)}</div>
                         </div>
                         <div className="balance-bet">
                             Yout Bets
-                            <div id="total-bet" className="counter" data-count={_totalBet}></div>
+                            <div id="total-bet" className="counter" data-count={_totalBet}>0</div>
                         </div>
                         <div className="balance-bet">
                             Your Wins
-                            <div id="total-bet" className="counter" data-count={_totalWin}></div>
+                            <div id="total-bet" className="counter" data-count={_totalWin}>0</div>
                         </div>
                         {localStorage.getItem(gameId) && (
                             <div
@@ -521,9 +546,7 @@ const BlackjackGame = () => {
                         </div>
                     </div>
 
-                    <div id="volume-button">
-                        <i className="fas fa-volume-up"></i>
-                    </div>
+                  
                     {gameTimer >= 1 && !gameData.gameOn && gameData.gameStart && (
                         <div id="deal-start-label">
                             <p className="animate__bounceIn animate__animated animate__infinite" style={{ animationDuration: "1s" }}>
@@ -561,7 +584,7 @@ const BlackjackGame = () => {
                         <div className="grid-item">
                             <div id="dealer">
                                 <h1>PLAYER</h1>
-                                {gameData.player?.cards.length > 0 && <div id="dealerSum" className={gameData.win == null ? "counter" : gameData.win == "PLAYER" ? "result-win counter" :gameData.win == "TIE"?"result-drow counter" : " result-lose  counter"} data-count={gameData.player?.sum}></div>}
+                                {gameData.player?.cards.length > 0 && <div id="dealerSum" className={gameData.win == null ? "counter" : gameData.win == "PLAYER" ? "result-win counter" :gameData.win == "TIE"?"result-drow counter" : " result-lose  counter"} data-sign="" data-count={gameData.player?.sum}>0</div>}
                                 {gameData.player?.cards.length > 0 && (
                                     <div className="dealer-cards" style={{ marginLeft: (gameData.player?.cards.length < 3 ? gameData.player?.cards.length : 2) * -45 }}>
                                         <div className="visibleCards">
@@ -584,7 +607,7 @@ const BlackjackGame = () => {
                         <div className="grid-item">
                             <div id="dealer">
                                 <h1>BANKER</h1>
-                                {gameData.banker?.cards.length > 0 && <div id="dealerSum" className={gameData.win == null ? "counter" : gameData.win == "BANKER" ? "result-win counter" : gameData.win == "TIE"?"result-drow counter" :"result-lose counter"} data-count={gameData.banker?.sum}></div>}
+                                {gameData.banker?.cards.length > 0 && <div id="dealerSum" className={gameData.win == null ? "counter" : gameData.win == "BANKER" ? "result-win counter" : gameData.win == "TIE"?"result-drow counter" :"result-lose counter"} data-sign="" data-count={gameData.banker?.sum}>0</div>}
                                 {gameData.banker?.cards.length > 0 && (
                                     <div className="dealer-cards" style={{ marginLeft: (gameData.banker?.cards.length < 3 ? gameData.banker?.cards.length : 2) * -45 }}>
                                         <div className="visibleCards">

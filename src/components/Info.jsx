@@ -1,5 +1,5 @@
 import React from "react";
-import { ModalContent, Button, Icon, Modal } from "semantic-ui-react";
+import { ModalContent, Button, Icon, Modal,ModalHeader } from "semantic-ui-react";
 
 const doCurrency = (value) => {
     let val = value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -28,17 +28,19 @@ const ModalExampleScrollingContent = (prop) => {
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
                 size="tiny"
+                dimmer="blurring"
                 trigger={
-                    <Button basic inverted color="grey" size="mini" style={{ position: "relative", display: "block" }} id="sidebetbtn" icon labelPosition="left">
+                    <Button basic inverted color="grey"  size="large" style={{ position: "relative", display: "block" }} id="sidebetbtn" icon labelPosition="left">
                         <Icon name="info" />
                         How to Play
                     </Button>
                 }
             >
+                <ModalHeader>How to Play Baccarat</ModalHeader>
                 <ModalContent scrolling>
                     <article>
-                        <h1>How to Play Baccarat</h1>
-                        <h2>Game Overview</h2>
+                       
+                        <h4>Game Overview</h4>
 
                         <p>Baccarat is a card game played using eight standard 52-card decks.<br/>
                         The game consists of two hands, Player and Banker.<br/>
@@ -48,7 +50,7 @@ const ModalExampleScrollingContent = (prop) => {
                         After both hands have achieved their final total, the higher hand will be declared the winner.<br/>
                         In the case of a tie the Player and Banker bets will “push”.</p>
 
-                        <h2>Card Point Value</h2>
+                        <h4>Card Point Value</h4>
                         <p>There are four suits of cards: Spades, Hearts, Diamonds and Clubs. All suits have the same value. &nbsp;The following chart indicates the point values of each card: </p>
 
                         <table className="two">
@@ -165,7 +167,7 @@ const ModalExampleScrollingContent = (prop) => {
                                 </tr>
                             </tbody>
                         </table>
-                        <h2>3rd Card Determination</h2>
+                        <h4>3rd Card Determination</h4>
                         <p>Initial (two card) hand values determine whether a 3rd card is drawn for either or both the Player and Banker hands:<br/><br/>
                         If either the Player or Banker have 8 or 9 points (referred to as a "natural"), no additional cards are drawn for either hand.<br/>
                         If the Player's total is 6 or 7 points, the Player stands, and Banker acts as follows:<br/><br/>
@@ -584,7 +586,7 @@ const ModalExampleScrollingContent = (prop) => {
                                 </tr>
                             </tbody>
                         </table>
-                        <h2>Sequence of Play</h2>
+                        <h4>Sequence of Play</h4>
                             <p>Bettor places any desired wagers. Wagers are valid for a single round of play only.</p>
                             <p>Cards are dealt from 8 deck shoe (reshuffled before each round) in the following order:</p>
                         
@@ -596,7 +598,7 @@ const ModalExampleScrollingContent = (prop) => {
                                 <li>Possible 3rd&nbsp;card to Player</li>
                                 <li>Possible 3rd&nbsp;card to Banker</li>
                             </ul>
-                            <h2>Additional Wagers</h2>
+                            <h4>Additional Wagers</h4>
 
 <p>Bettors can choose from any of the additional wagers listed below:</p>
 <ul>
@@ -606,7 +608,7 @@ const ModalExampleScrollingContent = (prop) => {
 <li><span class="c13">3 Card Win [Player / Banker]</span>: Separate bets for Player / Banker. Wins if the chosen side wins with a 3 card hand.</li>
 <li><span class="c13">Perfect Pairs</span>: Wins if first two cards of the Player or Banker hand are identical in both rank and suit (e.g., both Jack of Clubs). Pairs involving a 3rd card do not win this bet. Increased payout if both the Player and Banker hands are Perfect Pairs.</li>
 </ul>
-                        <h2>Paytable</h2>
+                        <h4>Paytable</h4>
                      
                         <table className="two">
                             <thead>
@@ -707,14 +709,14 @@ const ModalExampleScrollingContent = (prop) => {
                     </article>
                 </ModalContent>
             </Modal>
-            <div id="balance-bet-box" style={{ top: 40, right: -33 }}>
+            <div id="balance-bet-box" style={{ top: 55, right: -30 }}>
                 <div className="balance-bet">
                     Total Bets
-                    <div id="total-bet" className="counter" data-count={prop.totalBetAll}></div>
+                    <div id="total-bet" className="counter" data-count={prop.totalBetAll}>0</div>
                 </div>
                 <div className="balance-bet">
                     Total Wins
-                    <div id="total-bet" className="counter" data-count={prop.totalWinAll}></div>
+                    <div id="total-bet" className="counter" data-count={prop.totalWinAll}>0</div>
                 </div>
             </div>
         </span>
